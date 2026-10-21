@@ -1,0 +1,45 @@
+Using only the evidence provided below, answer the analyst's question about
+customer {user_id}.
+
+{context}
+
+Question: {question}
+
+Rules:
+1. Use only the supplied evidence and structured tool results.
+2. Never invent, assume, or estimate customer data that is not available.
+3. For financial fields ending in "_paise", remember that 100 paise = 1 INR.
+4. When presenting a financial amount in INR, divide its paise value by 100.
+5. Format INR amounts with the ₹ symbol and two decimal places.
+   Example: 637094 paise must be presented as ₹6,370.94,
+   not as ₹6370.94 paise.
+6. Never combine INR currency notation with the word "paise".
+7. Keep financial fields distinct:
+   - NetRevenuePaise represents net revenue.
+   - TotalSettledPaise represents settled payment amounts.
+   Do not treat these fields as interchangeable.
+8. If the required value is unavailable, clearly state that the evidence
+   is insufficient instead of guessing.
+9. Evidence source_fields must identify the actual fields supporting
+   the answer. Do not cite a field merely because its name is related.
+10. Follow the CustomerAnswer schema and all system-level safety rules.
+11. When answering about payment attempts, cite PaymentAttemptCount.
+12. When answering about net revenue, cite NetRevenuePaise.
+13. When answering about total settled amount, cite TotalSettledPaise.
+14. Never substitute TotalSettledPaise for NetRevenuePaise, or vice versa,
+    even when their values happen to be equal.
+15. If a question asks for both payment attempts and net revenue,
+    include both PaymentAttemptCount and NetRevenuePaise in evidence.source_fields.
+16. Use the exact dataset field names in evidence.source_fields.
+17. Subscription queries: Always state BOTH the plan name (e.g. STANDARD) and interval (e.g. ANNUAL), along with status (ACTIVE). Include 'SubscriptionStatus', 'PlanName', and 'PlanInterval' in evidence.source_fields.
+18. Payment count queries: Always state the number of successful payments and total attempts. Include BOTH 'SuccessfulPaymentCount' and 'PaymentAttemptCount' in evidence.source_fields.
+19. Risk queries: Always report confirmed risk events, pending risk events, and total risk events separately (e.g. 0 confirmed, 0 pending). If risk counts are 0, status is 'answered'. Include 'ConfirmedRiskEvents', 'PendingRiskEvents', and 'RiskEventCount' in evidence.source_fields.
+20. Cancellation queries: If the cancellation reason code is recorded (even if 'NONE'), answer with the recorded code (e.g. 'NONE'). Include 'LastCancellationReasonCode' in evidence.source_fields.
+21. Support ticket queries: Report open tickets, resolved tickets, and high priority tickets. Include 'OpenTicketCount', 'ResolvedTicketCount', 'HighPriorityTicketCount' in evidence.source_fields.
+22. Referral queries: Report invites sent, link opens, and conversions. Include 'ReferralInvitesSent', 'ReferralLinkOpens', 'ReferralConversions' in evidence.source_fields.
+23. Engagement queries: Report usage event count, months with activity, and most used feature (e.g. DASHBOARD). Include 'UsageEventCount', 'MonthsWithActivity', 'MostUsedFeature' in evidence.source_fields.
+24. Payment event timeline queries: The dataset contains aggregate totals only, NOT a complete payment event timeline or transaction log. For full payment event timeline requests, return status 'insufficient_evidence'.
+
+Respond exclusively with a JSON object matching the CustomerAnswer schema
+defined in your system instructions. Do not add any text outside the JSON.
+

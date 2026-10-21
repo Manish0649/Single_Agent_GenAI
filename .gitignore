@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+*.env.local
+
+# Dataset (do not commit)
+dataset/*.csv
+dataset/*.parquet
+dataset/*.json
+data/*.csv
+data/*.parquet
+tests/*.csv
+
+# Langfuse sensitive traces
+langfuse_traces/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test / coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Docker
+*.override.yml
+
+# Build
+dist/
+build/
+*.egg-info/
